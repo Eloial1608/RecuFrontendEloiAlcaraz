@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { PlanetProvider } from "@/vertical/Plantet";
-import { TravelHistoryProvider } from "@/vertical/TravelHistory";
-import { SpaceShipProvider } from "@/vertical/SpaceShip";
-import { MissionProvider } from "@/vertical/Mission";
+import { UserProvider } from "@/vertical/user/context/UserContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Space Travel App",
-  description: "Explore the universe",
+  title: "Banca Nova",
+  description: "Banca Nova user registration",
 };
 
 export default function RootLayout({
@@ -28,19 +25,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ca">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black/6 backdrop-blur-sm`}
       >
-        <PlanetProvider>
-          <TravelHistoryProvider>
-            <SpaceShipProvider>
-              <MissionProvider>
-                {children}
-              </MissionProvider>
-            </SpaceShipProvider>
-          </TravelHistoryProvider>
-        </PlanetProvider>
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

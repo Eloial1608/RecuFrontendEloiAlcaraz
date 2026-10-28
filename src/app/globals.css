@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #070b16;
+  --foreground: #edf7ff;
+  --neon-cyan: #20e6ff;
+  --neon-pink: #ff4fd8;
+  --neon-lime: #c6ff4a;
+  --night-panel: rgba(11, 18, 38, 0.78);
 }
 
 @theme inline {
@@ -12,18 +16,140 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+  min-height: 100vh;
 }
+
+::selection { background: rgba(32, 230, 255, 0.35); color: #fff; }
+
+.glass-page {
+  background:
+    radial-gradient(circle at 8% 12%, rgba(32, 230, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 92% 82%, rgba(255, 79, 216, 0.18), transparent 30%),
+    linear-gradient(135deg, #070b16 0%, #101833 54%, #090d1e 100%);
+  position: relative;
+  isolation: isolate;
+}
+
+.brand-mark {
+  align-items: center;
+  background: #101a37;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(32, 230, 255, 0.8);
+  box-shadow: 0 0 22px rgba(32, 230, 255, 0.42), inset 0 0 14px rgba(32, 230, 255, 0.14);
+  color: var(--neon-cyan);
+  display: flex;
+  font-size: 0.7rem;
+  font-weight: 800;
+  height: 2.5rem;
+  justify-content: center;
+  letter-spacing: -0.05em;
+  width: 2.5rem;
+}
+
+.auth-nav {
+  align-items: center;
+  background: rgba(9, 15, 32, 0.72);
+  border: 1px solid rgba(32, 230, 255, 0.35);
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(32, 230, 255, 0.12);
+  display: flex;
+  gap: 0.2rem;
+  padding: 0.25rem;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.auth-nav-button {
+  border-radius: 999px;
+  color: #9bb7ca;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.65rem 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-nav-button:hover { color: var(--neon-cyan); transform: translateY(-1px); }
+.auth-nav-button-active { background: var(--neon-cyan); color: #06101c; box-shadow: 0 0 18px rgba(32, 230, 255, 0.55); }
+.auth-nav-button-active:hover { color: #06101c; }
+
+.eyebrow {
+  color: var(--neon-cyan);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  background: var(--neon-lime);
+  border: 4px solid rgba(198, 255, 74, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(198, 255, 74, 0.8), 0 0 0 3px rgba(198, 255, 74, 0.08);
+  height: 0.8rem;
+  width: 0.8rem;
+}
+
+.glass-page::before {
+  background-image: linear-gradient(rgba(32,230,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(32,230,255,0.08) 1px, transparent 1px);
+  background-size: 42px 42px;
+  content: "";
+  inset: 0;
+  mask-image: linear-gradient(to bottom, #20e6ff, transparent 80%);
+  opacity: 0.65;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(18, 31, 62, 0.88), rgba(9, 15, 31, 0.72));
+  border: 1px solid rgba(32, 230, 255, 0.48);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46), 0 0 28px rgba(32, 230, 255, 0.1), inset 0 1px rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+}
+
+.glass-input {
+  background: rgba(4, 10, 25, 0.72);
+  border-color: rgba(155, 183, 202, 0.32);
+  color: #edf7ff;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.glass-panel h1,
+.glass-panel label,
+.glass-panel p,
+.auth-intro h1,
+.auth-intro p,
+.auth-intro .text-slate-700 {
+  color: #edf7ff;
+}
+
+.glass-page .text-slate-800,
+.glass-page .text-slate-700 { color: #d8e9f5; }
+.glass-page .text-slate-600 { color: #b9cede; }
+.glass-page .text-slate-900 { color: #f5fbff; }
+.glass-panel button:not([type="submit"]),
+.glass-panel a { color: var(--neon-cyan); }
+
+.glass-panel .text-slate-600,
+.glass-panel .text-slate-700,
+.glass-panel .text-slate-800 {
+  color: #a9c0d1;
+}
+
+.glass-panel .text-teal-700 { color: var(--neon-cyan); }
+.glass-panel input::placeholder { color: #7892a6; opacity: 1; }
+.glass-panel select option { background: #101a37; color: #edf7ff; }
+.glass-panel [role="alert"] { color: #ffb4c5; }
+.glass-panel .text-emerald-800 { color: #a9ffd5; }
+.glass-panel input:focus,
+.glass-panel select:focus { border-color: var(--neon-cyan); box-shadow: 0 0 0 3px rgba(32, 230, 255, 0.16), 0 0 18px rgba(32, 230, 255, 0.2); }
 
 /* Reusable translucent card used across the app */
 .card {
@@ -54,3 +180,7 @@ body {
 /* Improve typography readability */
 h1, h2, h3, h4, h5 { letter-spacing: -0.01em; }
 p { line-height: 1.5; }
+
+@media (max-width: 639px) {
+  .auth-nav-button { font-size: 0.72rem; padding: 0.58rem 0.65rem; }
+}

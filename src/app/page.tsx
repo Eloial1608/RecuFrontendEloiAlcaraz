@@ -1,99 +1,61 @@
 "use client";
 
-import { TravelHistorySummary, TravelHistoryList, SpecialTravelHistoryList} from "@/vertical/TravelHistory";
-import { SpeedController, SpaceShipAnimation} from "@/vertical/SpaceShip";
-import { PlanetList, PlanetDetails, usePlanet } from "@/vertical/Plantet";
-import { StartMissionButton, useMission } from "@/vertical/Mission";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { UserLoginForm, UserRegistrationForm } from "@/vertical/user";
 
 export default function HomePage() {
-  const { currentPlanet, selectedPlanet } = usePlanet();
-  const missionContext = useMission();
-  const activeMission = missionContext?.mission;
-  const selectedDestination = selectedPlanet?.name ?? "Cap destinació";
+  const [showRegistration, setShowRegistration] = useState(false);
+  const router = useRouter();
 
   return (
-    <main className="relative min-h-screen p-6 text-white bg-black/10 backdrop-blur-sm overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main className="glass-page min-h-screen px-5 pb-10 pt-5 text-slate-800 sm:px-8 lg:px-12">
+      <header className="mx-auto flex max-w-7xl items-center justify-between gap-6">
+        <div className="flex items-center gap-3">
+          <div className="brand-mark" aria-hidden="true">BN</div>
+          <span className="hidden text-sm font-semibold tracking-[0.18em] text-slate-800 sm:inline">BANCA NOVA</span>
+        </div>
+        <nav className="auth-nav" aria-label="Authentication navigation">
+          <button
+            type="button"
+            onClick={() => setShowRegistration(false)}
+            className={`auth-nav-button ${!showRegistration ? "auth-nav-button-active" : ""}`}
+            aria-current={!showRegistration ? "page" : undefined}
+          >
+            Sign in
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowRegistration(true)}
+            className={`auth-nav-button ${showRegistration ? "auth-nav-button-active" : ""}`}
+            aria-current={showRegistration ? "page" : undefined}
+          >
+            Register
+          </button>
+        </nav>
+      </header>
 
-        <aside className="lg:col-span-3 card p-4">
-          <h3 className="text-green-300 font-bold mb-3">[ REGISTRE DE MISSIÓ ]</h3>
-          <div className="mb-4">
-            <p className="text-sm text-gray-300">UBICACIÓ ACTUAL</p>
-            <p className="text-lg font-semibold">{currentPlanet.name}</p>
-          </div>
-          <div className="mb-4">
-            <p className="text-sm text-gray-300">DESTÍ SELECCIONAT</p>
-            <p className="text-lg font-semibold">{selectedDestination}</p>
-          </div>
-          <div className="w-full bg-gray-800 h-3 rounded mt-2">
-            <div className="bg-green-500 h-3 rounded" style={{ width: '12%' }} />
-          </div>
-          <p className="text-xs mt-2">PLANETES VISITATS</p>
-          <div className="space-y-1 mt-2 text-sm text-gray-200">
-            <p>Mercuri</p>
-            <p>Venus</p>
-            <p className="text-green-300">Terra</p>
-          </div>
-          <div className="mt-6">
-            <TravelHistorySummary />
-          </div>
-        </aside>
-
-        <section className="lg:col-span-6 card p-4">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="px-3 py-1 bg-gray-800 border border-green-500 text-green-300 rounded">PLANETES</div>
-            <div className="px-3 py-1 bg-gray-800 border text-gray-300 rounded">INFO</div>
-          </div>
-
-          <div className="card p-4">
-            <p className="text-center text-sm mb-3">[ SELECCIONA DESTINACIÓ ]</p>
-            <PlanetList />
-            <p className="text-xs text-gray-400 mt-4 text-center">FES CLIC EN UN PLANETA PER SELECCIONAR-LO COM A DESTINACIÓ</p>
-          </div>
-
-          <div className="mt-6 card p-4">
-            <PlanetDetails />
-          </div>
-
-          <div className="mt-6 card p-3">
-            <h4 className="text-sm text-gray-300">[ ESTAT DE LA NAU ]</h4>
-            <div className="mt-3">
-              <SpaceShipAnimation />
-            </div>
-            <p className="text-xs text-gray-400 mt-2">{activeMission ? "Missió en curs" : "Nau preparada per iniciar"}</p>
+      <div className="mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,540px)] lg:gap-20 lg:py-16">
+        <section className="auth-intro max-w-xl">
+          <p className="eyebrow">Your banking, closer to you</p>
+          <h1 className="mt-5 text-5xl font-semibold leading-[0.98] tracking-[-0.04em] text-slate-950 sm:text-7xl">
+            A clearer way to move your money.
+          </h1>
+          <p className="mt-7 max-w-md text-lg leading-8 text-slate-700">
+            Manage your daily finances with a secure, simple experience designed for you.
+          </p>
+          <div className="mt-10 flex items-center gap-4 text-sm font-medium text-slate-700">
+            <span className="status-dot" aria-hidden="true" />
+            Secure and protected access
           </div>
         </section>
 
-        <aside className="lg:col-span-3 card p-4">
-          <h3 className="text-yellow-300 font-bold mb-3">[ CONTROL DE NAVEGACIÓ ]</h3>
-          <div className="mb-4">
-            <p className="text-sm text-gray-300">
-              VELOCITAT NAU: <span className="text-yellow-300">{missionContext?.mission ? missionContext.mission.speed : 100} KM/S</span>
-            </p>
-            <SpeedController />
-          </div>
-
-          <div className="mb-4 card p-3">
-            <p className="text-sm text-gray-400">DESTÍ ACTUAL</p>
-            <p className="text-xs text-gray-400 mt-2">{selectedDestination}</p>
-          </div>
-
-          <div>
-            <StartMissionButton />
-          </div>
-        </aside>
-
-      </div>
-
-      <div className="max-w-7xl mx-auto mt-6 card p-4 space-y-6 relative z-10">
-        <div>
-          <h2 className="text-lg font-semibold text-white mb-3">Historial de missions especials</h2>
-          <SpecialTravelHistoryList />
-        </div>
-
-        <div>
-          <h2 className="text-lg font-semibold text-white mb-3">Historial complet</h2>
-          <TravelHistoryList />
+        <div className="w-full">
+          {!showRegistration ? (
+            <UserLoginForm onRegister={() => setShowRegistration(true)} onLogin={() => router.push("/redirect")} />
+          ) : (
+            <UserRegistrationForm onCancel={() => setShowRegistration(false)} />
+          )}
         </div>
       </div>
     </main>
